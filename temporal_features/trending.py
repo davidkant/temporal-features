@@ -40,7 +40,7 @@ def trending(
 
     Returns:
         alpha (np.ndarray [shape=(n,)]): FFT spectrum, complex.
-        bin_freqs (np.ndarray [shape=(n,)]): FFT bin frequencies.
+        bin_freqs (np.ndarray [shape=(n,)]): FFT bin frequencies expressed as durations.
     """
 
     if y_pca is None:
@@ -72,7 +72,7 @@ def trending(
     ffreq = float(len(Y_pca_window) * hop_length) / float(sr)
 
     # compute bin frequencies
-    bin_freqs = np.append(np.inf, ffreq / 60.0 / np.arange(1, len(ALPHA)))
+    bin_freqs = np.append(np.inf, ffreq / np.arange(1, len(ALPHA)))
 
     # sanity check
     if verbose:
