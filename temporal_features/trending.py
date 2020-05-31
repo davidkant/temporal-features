@@ -26,6 +26,8 @@ def trending(
 
     Note: win length is a request and will be quantized to nearest hop.
 
+    Note: signal will be cropped to size and/or zero padded to fit analysis window.
+
     Args:
         y (np.ndarray [shape=(n,)]): The input signal to be analyzed.
         y_pca (np.ndarray [shape=(n,)], optional): Alt input for a PCA'd signal.
@@ -53,9 +55,15 @@ def trending(
     else:
         Y_pca = y_pca
 
-    # zero pad
+
+    # format window, crop if too large, zero pad if too small
     win_in_samps = int(math.ceil(win * sr / float(hop_length)))
-    Y_pca_padded = np.pad(Y_pca, (0, win_in_samps - len(Y_pca)), 'constant')
+
+    if len(Y_pca) < win_in_samps:
+        Y_pca = Y_pca[:win_in_samps]
+
+    if len(Y_pca) > win_in_samps:
+        Y_pca_padded = np.pad(Y_pca, (0, win_in_samps - len(Y_pca)), 'constant')
 
     # FFT analysis
     ALPHA = np.fft.rfft(Y_pca_padded)
