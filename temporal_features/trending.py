@@ -10,8 +10,9 @@ def trending(
     y_pca=None,
     win=60,
     feature='STFT',
-    sr=44100,
+    n_fft=2048,
     hop_length=1024,
+    sr=44100,
     verbose=True,
 ):
     """FFT trend analysis.
