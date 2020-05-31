@@ -80,8 +80,8 @@ def trending(
       print("- input shape: {}".format(y.shape))
       print("- STFT shape: {}".format(Y.shape))
       print("- PCA shape: {}".format(Y_pca.shape))
-      print("- padded shape: {}".format(Y_pca_padded.shape))
-      print("- zero padding: {}".format(len(Y_pca_padded) - len(Y_pca)))
+      print("- windowed shape: {}".format(Y_pca_window.shape))
+      print("- zero padding: {}".format(len(Y_pca_window) - len(Y_pca)))
       print("- analysis bins: {}".format(len(ALPHA) - 1))
       print("- analysis freq: {}".format(ffreq))
 
