@@ -72,7 +72,7 @@ def trending(
     ffreq = float(len(Y_pca_window) * hop_length) / float(sr)
 
     # compute bin frequencies
-    bin_freqs = ffreq / 60.0 / np.arange(0, len(ALPHA))
+    bin_freqs = np.append(np.inf, ffreq / 60.0 / np.arange(1, len(ALPHA)))
 
     # sanity check
     if verbose:
