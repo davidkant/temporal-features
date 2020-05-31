@@ -99,3 +99,39 @@ def tr600(y=None, pca=None, verbose=False):
     ALPHA, bin_freqs = trending(y=y, pca=pca, win=600, verbose=verbose)
     return np.abs(ALPHA)[1]
 
+
+def trending_plot(
+    alpha,
+    hop_length=1024,
+    sr=44100,
+    normalize=True,
+    xscale='log',
+    yscale='linear',
+    ax=None,
+):
+    """FFT trend analysis plot."""
+
+    ffreq = ((len(alpha) * 2 - 2) * hop_length) / float(sr)
+    magspec = np.abs(alpha)
+
+    bin_freqs = np.arange(0, len(alpha), dtype='float')
+    bin_freqs[0] = 0.7 # to include bin 0 on log scale plots, 0.7 arbitrary
+
+    if normalize:
+        magspec /= np.max(magspec)
+
+    if ax is None:
+        fig, ax = plt.subplots(figsize=(6,3))
+
+    ax.plot(bin_freqs, magspec)
+    ax.set_xscale(xscale)
+    ax.set_yscale(yscale)
+
+    xticks = ax.get_xticks()
+    ax.set_xticklabels(["{:.2f}".format(ffreq/t) for t in xticks])
+
+    plt.title('Trend Analysis')
+    plt.xlabel('Duration (in seconds)')
+    plt.ylabel('Amplitude (normalized)')
+
+    return ax
