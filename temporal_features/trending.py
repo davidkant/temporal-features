@@ -59,14 +59,14 @@ def trending(
     # format window, crop if too large, zero pad if too small
     win_in_samps = int(math.ceil(win * sr / float(hop_length)))
 
-    if len(Y_pca) < win_in_samps:
-        Y_pca = Y_pca[:win_in_samps]
+    if len(Y_pca) >= win_in_samps:
+        Y_pca_window = Y_pca[:win_in_samps]
 
-    if len(Y_pca) > win_in_samps:
-        Y_pca_padded = np.pad(Y_pca, (0, win_in_samps - len(Y_pca)), 'constant')
+    elif len(Y_pca) < win_in_samps:
+        Y_pca_window = np.pad(Y_pca, (0, win_in_samps - len(Y_pca)), 'constant')
 
     # FFT analysis
-    ALPHA = np.fft.rfft(Y_pca_padded)
+    ALPHA = np.fft.rfft(Y_pca_window)
 
     # compute fundamental frequency
     ffreq = ((len(ALPHA) * 2 * hop_length) / float(sr))
