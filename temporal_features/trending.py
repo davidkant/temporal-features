@@ -69,7 +69,7 @@ def trending(
     ALPHA = np.fft.rfft(Y_pca_window)
 
     # compute fundamental frequency
-    ffreq = ((len(ALPHA) * 2 * hop_length) / float(sr))
+    ffreq = float(len(Y_pca_window) * hop_length) / float(sr)
 
     # compute bin frequencies
     bin_freqs = ffreq / 60.0 / np.arange(0, len(ALPHA))
