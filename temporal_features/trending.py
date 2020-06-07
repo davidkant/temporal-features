@@ -14,6 +14,7 @@ def trending(
     n_fft=2048,
     hop_length=1024,
     sr=44100,
+    pca_random_state=0,
     verbose=True,
 ):
     """FFT trend analysis.
@@ -37,6 +38,7 @@ def trending(
         n_fft (int): Size of the FFT.
         hop_length (int): Hop length for frequency-domain transform.
         sr (int): Audio sample rate.
+        pca_random_state (int): Random seed for reproducable results.
         verbose (bool): Tell me about it.
 
     Returns:
@@ -50,12 +52,11 @@ def trending(
         Y = np.abs(librosa.stft(y, n_fft=n_fft, hop_length=hop_length))
 
         # PCA to one dim
-        pca = PCA(n_components=1)
+        pca = PCA(n_components=1, random_state=pca_random_state)
         Y_pca = np.squeeze(pca.fit_transform(Y.T))
 
     else:
         Y_pca = y_pca
-
 
     # format window, crop if too large, zero pad if too small
     win_in_samps = int(math.ceil(win * sr / float(hop_length)))
