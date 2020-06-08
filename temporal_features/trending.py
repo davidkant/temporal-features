@@ -138,3 +138,60 @@ def trending_plot(
     plt.ylabel('Amplitude (normalized)')
 
     return ax
+
+
+def FFT_to_target_bins(actual_freqs, target_freqs):
+    """Given a list of FFT bin frequencies, return the target frequency bins.
+
+    Use this to sum actual FFT bin frequency energies into target frequency
+    bins of a custom spectrum distribution.
+
+    Hint: it's the index of the last bin it's not smaller than.
+
+    Args:
+        actual_freqs (np.ndarray [shape=(n,)]): Actual analysis bin freqs.
+        target_freqs (np.ndarray [shape=(n,)]): Target analysis bin freqs.
+
+    Returns:
+        index (np.ndarray [shape=(n,)]): bin indicies of target freqencies.
+
+    """
+    def FFT_to_target_bin(fft_bin_freq, target_freqs):
+        return sum([fft_bin_freq < target for target in target_freqs])
+
+    return np.array([FFT_to_target_bin(f, target_freqs) for f in actual_freqs])
+
+
+def FFT_to_target_spec(alpha, bin_freqs, target_freqs, aggr_func=np.mean):
+    """Redistribute FFT bins according to given target spectrum.
+
+    Target bins are the indicies in the new spectrum distribution of the
+    original FFT bins. Multiple bins that are mapped to the same target bin
+    are aggregated using the aggegator function. The default is `np.mean`.
+    Note: alpha is complex, but this returns magspec, that's a little  odd.
+
+    Args:
+        alpha (np.ndarray [shape=(n,)]): FFT spectrum.
+        bin_freqs (np.ndarray [shape=(n,)]): Actual analysis bin freqs.
+        target_freqs (np.ndarray [shape=(n,)]): Target analysis freqs.
+        aggr_func (function): Maps many bins to a scalar value.
+
+    Returns:
+        spectrum (np.ndarray [shape=(n,)]): Redistributed spectrum.
+
+    """
+    # convert to magspec
+    ALPHA = np.abs(alpha)
+
+    # compute target bins
+    target_bins = FFT_to_target_bins(bin_freqs, target_freqs)
+
+    # redistribute and aggregate bins
+    beta = np.array(
+        [
+            aggr_func(ALPHA[np.where(target_bins==i)])
+            for i in range(np.max(target_bins) + 1)
+        ]
+    )
+
+    return beta
