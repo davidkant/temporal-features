@@ -162,7 +162,7 @@ def FFT_to_target_bins(actual_freqs, target_freqs):
     return np.array([FFT_to_target_bin(f, target_freqs) for f in actual_freqs])
 
 
-def FFT_to_target_spec(alpha, bin_freqs, target_freqs, aggr_func=np.mean):
+def FFT_to_target_spec(alpha, bin_freqs, target_freqs, aggr_func=np.max):
     """Redistribute FFT bins according to given target spectrum.
 
     Target bins are the indicies in the new spectrum distribution of the
