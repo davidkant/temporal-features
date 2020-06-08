@@ -19,16 +19,16 @@ def trending(
 ):
     """FFT trend analysis.
 
-    Analyze a signal for long-term change, or trends, using FFT analysis. The audio
-    signal is first transformed to the frequency domain and then reduced to one
-    dimension using PCA. FFT trend analysis is performed on the dimenion-reduced
-    frequency-domain signal.
+    Analyze a signal for long-term change, or trends, using FFT analysis. The
+    audio signal is first transformed to the frequency domain and then reduced
+    to one dimension using PCA. FFT trend analysis is performed on the dimenion-
+    reduced frequency-domain signal.
 
       :: y -> freq-domain -> PCA -> FFT trend analysis
 
     Note: win length is a request and will be quantized to nearest hop.
 
-    Note: signal will be cropped to size and/or zero padded to fit analysis window.
+    Note: signal will be cropped to size and/or zero padded to fit FFT window.
 
     Args:
         y (np.ndarray [shape=(n,)]): The input signal to be analyzed.
@@ -43,7 +43,7 @@ def trending(
 
     Returns:
         alpha (np.ndarray [shape=(n,)]): FFT spectrum, complex.
-        bin_freqs (np.ndarray [shape=(n,)]): FFT bin frequencies expressed as durations.
+        bin_freqs (np.ndarray [shape=(n,)]): FFT bin frequencies (as durations).
     """
 
     if y_pca is None:
@@ -130,7 +130,8 @@ def trending_plot(
     ax.set_yscale(yscale)
 
     xticks = ax.get_xticks()
-    ax.set_xticklabels(["{:.2f}".format(ffreq/t) for t in xticks])
+    bin_labels = ["{:.2f}".format(ffreq/t) for t in xticks]
+    ax.set_xticklabels(bin_labels)
 
     plt.title('Trend Analysis')
     plt.xlabel('Duration (in seconds)')
