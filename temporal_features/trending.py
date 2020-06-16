@@ -221,6 +221,9 @@ def temporal_centroid(alpha, bin_freqs):
     ALPHA = np.abs(alpha)
 
     # weighted average, omit dc bin
-    centroid = np.sum(ALPHA[1:] * bin_freqs[1:]) / np.sum(ALPHA[1:])
+    if np.sum(ALPHA[1:]) > 0.0:
+        centroid = np.sum(ALPHA[1:] * bin_freqs[1:]) / np.sum(ALPHA[1:])
+    else:
+        centroid = 0.0
 
     return centroid

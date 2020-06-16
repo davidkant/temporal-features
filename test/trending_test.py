@@ -90,8 +90,17 @@ def test_temporal_centroid_custom_spec():
     print('OK')
     return 1
 
+def test_temporal_centroid_divide_by_zero():
+    ALPHA = np.zeros(21)
+    bins = np.zeros(21)
+    centroid = tr.temporal_centroid(ALPHA, bins)
+    assert centroid == 0.0
+    print('OK')
+    return 1
+
 # run all tests
 test_trending_dunn_win_600()
 test_target_spec_dunn_win_600()
 test_temporal_centroid()
 test_temporal_centroid_custom_spec()
+test_temporal_centroid_divide_by_zero()
