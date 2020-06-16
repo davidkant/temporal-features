@@ -195,3 +195,29 @@ def FFT_to_target_spec(alpha, bin_freqs, target_freqs, aggr_func=np.max):
     )
 
     return beta
+
+
+def temporal_centroid(alpha, bin_freqs):
+    """Spectral centroid of the temporal spectrum.
+
+    Calculated as the weighted average of analysis bin magnitudes.
+
+    Note, temporal centroid depends on the spec frequency bins/scale (as well as
+    the choice of `aggr_func` if custom spec is used). That is, temporal centr-
+    oid of the raw FFT linear bins will generally be higher than that of a cus-
+    tom spec spaced on a perceptual scale.
+
+    Args:
+        alpha (np.ndarray [shape=(n,)]): FFT spectrum, complex.
+        bin_freqs (np.ndarray [shape=(n,)]): FFT bin frequencies (as durations).
+
+    Returns:
+        centroid (float): temporal centroid.
+    """
+    # convert to magspec
+    ALPHA = np.abs(alpha)
+
+    # weighted average, omit dc bin
+    centroid = np.sum(ALPHA[1:] * bin_freqs[1:]) / np.sum(ALPHA[1:])
+
+    return centroid
