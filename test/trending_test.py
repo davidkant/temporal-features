@@ -4,10 +4,9 @@ import librosa
 import numpy as np
 
 
-def trending_dunn_win_600():
+def test_trending_dunn_win_600():
     filename = 'resources/Thresholds_and_Fragile_States_10_19_2012.mp3'
     y, sr = librosa.load(filename, mono=True, sr=None)
-    alpha, bins = tr.trending(y, win=600, pca_random_state=0)
     alpha, bins = tr.trending(y, win=600, pca_random_state=0, verbose=False)
     alpha_test = np.load('test/data/trending_dunn_win_600_alpha_200608.npy')
     bins_test = np.load('test/data/trending_dunn_win_600_bins_200608.npy')
@@ -16,7 +15,7 @@ def trending_dunn_win_600():
     print('OK')
     return 1
 
-def target_spec_dunn_win_600():
+def test_target_spec_dunn_win_600():
     alpha = np.load('test/data/trending_dunn_win_600_alpha_200608.npy')
     bins = np.load('test/data/trending_dunn_win_600_bins_200608.npy')
     target_spec = [
@@ -91,5 +90,8 @@ def test_temporal_centroid_custom_spec():
     print('OK')
     return 1
 
-trending_dunn_win_600()
-target_spec_dunn_win_600()
+# run all tests
+test_trending_dunn_win_600()
+test_target_spec_dunn_win_600()
+test_temporal_centroid()
+test_temporal_centroid_custom_spec()
