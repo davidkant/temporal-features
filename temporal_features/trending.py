@@ -90,15 +90,15 @@ def trending(
     return ALPHA, bin_freqs
 
 
-def tr60(y=None, pca=None, verbose=False):
+def tr60(y=None, y_pca=None, verbose=False):
     """Trending energy at 60 seconds and below."""
-    ALPHA, bin_freqs = trending(y=y, pca=pca, win=60, verbose=verbose)
+    ALPHA, bin_freqs = trending(y=y, y_pca=y_pca, win=60, verbose=verbose)
     return np.abs(ALPHA)[1]
 
 
-def tr600(y=None, pca=None, verbose=False):
+def tr600(y=None, y_pca=None, verbose=False):
     """Trending energy at 10 minutes and below."""
-    ALPHA, bin_freqs = trending(y=y, pca=pca, win=600, verbose=verbose)
+    ALPHA, bin_freqs = trending(y=y, y_pca=y_pca, win=600, verbose=verbose)
     return np.abs(ALPHA)[1]
 
 
