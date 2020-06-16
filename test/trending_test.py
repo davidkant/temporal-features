@@ -8,6 +8,7 @@ def trending_dunn_win_600():
     filename = 'resources/Thresholds_and_Fragile_States_10_19_2012.mp3'
     y, sr = librosa.load(filename, mono=True, sr=None)
     alpha, bins = tr.trending(y, win=600, pca_random_state=0)
+    alpha, bins = tr.trending(y, win=600, pca_random_state=0, verbose=False)
     alpha_test = np.load('test/data/trending_dunn_win_600_alpha_200608.npy')
     bins_test = np.load('test/data/trending_dunn_win_600_bins_200608.npy')
     np.testing.assert_array_almost_equal(alpha, alpha_test)
