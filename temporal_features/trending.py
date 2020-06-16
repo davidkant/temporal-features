@@ -168,7 +168,10 @@ def FFT_to_target_spec(alpha, bin_freqs, target_freqs, aggr_func=np.max):
     Target bins are the indicies in the new spectrum distribution of the
     original FFT bins. Multiple bins that are mapped to the same target bin
     are aggregated using the aggegator function. The default is `np.mean`.
+
     Note: alpha is complex, but this returns magspec, that's a little  odd.
+    But benign, b/c np.abs(x) of real-valued x is identity, so can accept
+    either real-valued (magspec) or complex-valued spectrum.
 
     Args:
         alpha (np.ndarray [shape=(n,)]): FFT spectrum.
